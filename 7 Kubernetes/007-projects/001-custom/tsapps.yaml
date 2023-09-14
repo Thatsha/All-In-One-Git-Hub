@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tsapps-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: tsapps
+  template:
+    metadata:
+      labels:
+        app: tsapps
+    spec:
+      containers:
+        - name: tsapps
+          image: linuxramu/tsapps:2.5
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tsapps-service
+spec:
+  selector:
+    app: tsapps
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+  type: ClusterIP
